@@ -54,8 +54,8 @@ func (rs *RestHandler) FindInPuzzle(c *gin.Context) {
 
 	response := map[string]interface{}{
 		"Coordinates": map[string]interface{}{
-			"Row":    coordinates.X + 1,
-			"Column": coordinates.Y + 1,
+			"Row":    coordinates.X,
+			"Column": coordinates.Y,
 		},
 		"Direction":           direction,
 		"Number of Rotations": n,
