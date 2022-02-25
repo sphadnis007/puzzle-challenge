@@ -1,0 +1,126 @@
+
+/*
+var p1 = [][]byte{{'a', 'f', 'a'},
+	{'x', 'o', 'b'},
+	{'o', 'r', 'c'}}
+
+var a = [][]byte{{'z', 'e', 'z'},
+	{'w', 'n', 'a'},
+	{'n', 'q', 'b'}}
+
+var toFind = []byte{'a', 'b', 'c'}
+
+var horizontalRight = []int{0, 1}
+var verticalDown = []int{1, 0}
+
+// co-ordinate struct/interface
+
+func findInDirection(x, y int, direction []int, s []byte) bool {
+	xsize := len(a)
+	ysize := len(a[0])
+	fsize := len(s)
+
+	//fmt.Println("Rows:", xsize, "Columns:", ysize, "Find:", fsize, "Dir:", direction)
+
+	toFindItr := 1
+	x += direction[0]
+	y += direction[1]
+
+	defer func() {
+		if err := recover(); err != nil {
+			fmt.Println("panic: x", x, "y", y, "i", toFindItr)
+		}
+	}()
+
+	for x >= 0 && x < xsize && y >= 0 && y < ysize && toFindItr < fsize {
+		if a[x][y] == s[toFindItr] {
+			toFindItr++
+			x += direction[0]
+			y += direction[1]
+		} else {
+			return false
+		}
+	}
+
+	return toFindItr == fsize
+}
+
+func findStringFromCoordinates(x, y int, s []byte) bool {
+	if findInDirection(x, y, horizontalRight, s) ||
+		//findInDirection(x, y, horizontalLeft) ||
+		findInDirection(x, y, verticalDown, s) { //||
+		//findInDirection(x, y, verticalUp) {
+		return true
+	}
+
+	return false
+}
+
+func getRotatedElem(c byte, n int) byte {
+	n %= 26
+	//fmt.Println("initial", c, string(c), "n", byte(n))
+	c += byte(n)
+	//fmt.Println("now", c, string(c))
+	if c < 'a' {
+		diff := 'a' - c
+		c = 'z' - (diff - 1)
+	}
+
+	if c > 'z' {
+		diff := c - 'z'
+		c = 'a' + (diff - 1)
+	}
+
+	//fmt.Println("final", string(c))
+	return c
+}
+
+func rotate1DArray(arr []byte, num int) []byte {
+	res := make([]byte, len(arr))
+	for index, elem := range arr {
+		res[index] = getRotatedElem(elem, num)
+	}
+	return res
+}
+
+func findStringInPuzzle(puzzle [][]byte, s []byte) (bool, int, int) {
+	for r := range puzzle {
+		//fmt.Println(string(a[r]))
+		for c := range puzzle[r] {
+			if puzzle[r][c] == s[0] {
+				fmt.Println("Sending char", string(puzzle[r][c]))
+				if findStringFromCoordinates(r, c, s) {
+					fmt.Println("Found at", r, c)
+					return true, r, c
+				}
+			}
+		}
+	}
+
+	return false, -1, -1
+}
+
+func findStringInRotatedPuzzle() (bool, int, int) {
+	if f, r, c := findStringInPuzzle(a, toFind); f {
+		return true, r, c
+	}
+
+	fmt.Println("Going to rotate string now")
+	// we can rotate string maximum of 25 times, 26th time onwards, same pattern will repeat
+	// instead of rotating the whole puzzle, we are rotating the string and searching it
+	for i := -1; i > -5; i-- {
+		res := rotate1DArray(toFind, i)
+		fmt.Println(res)
+		if f, r, c := findStringInPuzzle(a, res); f {
+			return true, r, c
+		}
+	}
+
+	return false, -1, -1
+}
+
+
+TODO: Add this inside MakeFile and solve lint issues
+lint:
+	golangci-lint run --enable-all
+*/
